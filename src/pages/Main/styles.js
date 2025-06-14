@@ -26,14 +26,27 @@ export const Form = styled.form`
   margin-top: 30px;
   display: flex;
 
-  gap: 5px;
+  input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
 
   button {
     padding: 10px;
-    border-radius: 4px;
-    border: none;
+    border-radius: 5px;
+    border: solid;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   }
 `;
 
-export const SubmitButton = styled.button``;
+export const SubmitButton = styled.button`
+  background: #0d2636;
+  border: 0;
+  border-radius: 5px;
+  margin-left: 10px;
+  padding: 0 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
