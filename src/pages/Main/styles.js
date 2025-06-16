@@ -40,7 +40,9 @@ export const Form = styled.form`
   }
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button.attrs({
+  type: "submit",
+})`
   background: #0d2636;
   border: 0;
   border-radius: 5px;
@@ -49,4 +51,12 @@ export const SubmitButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const Card = styled.div`
+  padding: 10px;
+  margin: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
