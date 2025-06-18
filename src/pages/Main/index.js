@@ -2,7 +2,14 @@ import React from "react";
 //import { Link } from "react-router-dom";
 import { useState, useCallback } from "react";
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from "react-icons/fa";
-import { Container, Form, SubmitButton, List, DeleteButton } from "./styles";
+import {
+  Container,
+  Form,
+  SubmitButton,
+  List,
+  DeleteButton,
+  Button,
+} from "./styles";
 import api from "../../services/api";
 
 export default function Main() {
@@ -25,7 +32,7 @@ export default function Main() {
             };
             setRepositorios([...repositorios, data]);
             setNewRepo("");
-            console.log(response.data);
+            //console.log(response.data);
           } catch (error) {
             console.error(`Erro na requisição: ${error}`);
           } finally {
@@ -43,8 +50,8 @@ export default function Main() {
   };
 
   const onDeleteItem = (id) => {
-    const newRepositories = repositorios.filter((repo) => repo.id !== id);
-    setRepositorios(newRepositories);
+    const filteredRepositories = repositorios.filter((repo) => repo.id !== id);
+    setRepositorios(filteredRepositories);
   };
 
   return (
@@ -75,10 +82,12 @@ export default function Main() {
           <li key={repo.name}>
             <span>{repo.name}</span>
             <div>
-              <FaBars size={14} color="#000" />
-              <DeleteButton onClick={() => onDeleteItem(repo.id)}>
+              <Button>
+                <FaBars size={14} color="#000" />
+              </Button>
+              <Button onClick={() => onDeleteItem(repo.id)}>
                 <FaTrash size={14} color="#000" />
-              </DeleteButton>
+              </Button>
             </div>
           </li>
         ))}

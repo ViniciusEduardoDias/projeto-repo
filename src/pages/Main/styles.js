@@ -113,7 +113,7 @@ export const List = styled.ul`
   }
 `;
 
-export const DeleteButton = styled.button.attrs({
+export const Button = styled.button.attrs({
   type: "button",
 })`
   background: transparent;
