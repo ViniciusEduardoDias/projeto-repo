@@ -2,14 +2,7 @@ import React from "react";
 //import { Link } from "react-router-dom";
 import { useState, useCallback } from "react";
 import { FaGithub, FaPlus, FaSpinner, FaBars, FaTrash } from "react-icons/fa";
-import {
-  Container,
-  Form,
-  SubmitButton,
-  List,
-  DeleteButton,
-  Button,
-} from "./styles";
+import { Container, Form, SubmitButton, List, Button } from "./styles";
 import api from "../../services/api";
 
 export default function Main() {
@@ -23,7 +16,18 @@ export default function Main() {
 
       async function submit() {
         setLoading(true);
-        if (newRepo.trim) {
+        const hasRepo = repositorios.find((repo) => repo.name === newRepo);
+        if (!newRepo.trim()) {
+          alert("Digite o nome de um repositório!");
+          setLoading(false);
+          return;
+        }
+
+        if (hasRepo) {
+          alert("Repositório duplicado!");
+          setLoading(false);
+          return;
+        } else {
           try {
             const response = await api.get(`repos/${newRepo}`);
             const data = {
