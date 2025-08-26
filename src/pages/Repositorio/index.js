@@ -1,3 +1,13 @@
-export default function Repo() {
-  return <h1>Repositório</h1>;
+import { useParams } from "react-router-dom";
+
+import { Container } from "./styles";
+
+export default function Repositorio() {
+  const { repositorio } = useParams();
+
+  return (
+    <>
+      <Container> {`Repositório: ${repositorio}`} </Container>
+    </>
+  );
 }

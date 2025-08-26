@@ -2,14 +2,18 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Main from "./pages/Main";
-import Repo from "./pages/Repositorio";
+import Repositorio from "./pages/Repositorio";
 
 export default function Rotas() {
   return (
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Main />} />
-        <Route exact path="/repo" element={<Repo />} />
+        <Route
+          exact
+          path="/repositorio/:repositorio"
+          element={<Repositorio />}
+        />
       </Routes>
     </BrowserRouter>
   );
