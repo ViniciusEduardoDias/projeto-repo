@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import api from "../../services/api";
+import { IoIosArrowBack } from "react-icons/io";
 
-import { Container, Loading, Owner, Issues } from "./styles";
+import { Container, Loading, Owner, Issues, BackButton } from "./styles";
 
 export default function Repositorio({ match }) {
   const { repositorio } = useParams();
@@ -37,9 +39,13 @@ export default function Repositorio({ match }) {
       </Loading>
     );
   }
-
   return (
     <Container>
+      <BackButton>
+        <Link to="/">
+          <IoIosArrowBack size={20} color="white" />
+        </Link>
+      </BackButton>
       <Owner>
         <h1>{repositorioDatas.name}</h1>
         <img
@@ -47,11 +53,12 @@ export default function Repositorio({ match }) {
           alt={repositorioDatas.owner.login}
           width={120}
         />
+        <Link to={issues.html_url}>Visite o repositório</Link>
       </Owner>
 
       {issues.length > 0 && (
         <>
-          <h2 style={{ color: "white", marginTop: 20 }}>Issues abertas</h2>
+          <h2 style={{ marginTop: 20 }}>ISSUES ABERTAS</h2>
           <Issues>
             {issues.map((issue) => (
               <li key={issue.id}>
@@ -61,8 +68,8 @@ export default function Repositorio({ match }) {
                     {issue.title}
                   </a>
                 </div>
-                <div>
-                  <span>Autor</span> <p>Autor: {issue.user.login}</p>
+                <div style={{ textAlign: "right", width: "30%" }}>
+                  <span>Autor</span> <p>{issue.user.login}</p>
                 </div>
               </li>
             ))}

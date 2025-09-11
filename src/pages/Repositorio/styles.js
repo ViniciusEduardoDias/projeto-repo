@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: relative;
   background-color: white;
   max-width: 900px;
   border-radius: 20px;
@@ -56,9 +57,9 @@ export const Issues = styled.ul`
     border: 1px solid #eee;
     border-radius: 5px;
     margin-bottom: 10px;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
-    gap: 5px;
+    gap: 10px;
 
     div {
       width: 100%;
@@ -77,5 +78,22 @@ export const Issues = styled.ul`
     a {
       text-decoration: none;
     }
+  }
+`;
+
+export const BackButton = styled.button`
+  padding: 10px;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  border: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+
+  :hover {
+    background-color: darkred;
+    transition: background-color 0.3s;
   }
 `;
