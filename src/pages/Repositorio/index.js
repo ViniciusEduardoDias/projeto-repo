@@ -5,6 +5,7 @@ import api from "../../services/api";
 import { IoIosArrowBack } from "react-icons/io";
 
 import { Container, Loading, Owner, Issues, BackButton } from "./styles";
+import { LuRadius } from "react-icons/lu";
 
 export default function Repositorio({ match }) {
   const { repositorio } = useParams();
@@ -68,8 +69,20 @@ export default function Repositorio({ match }) {
                     {issue.title}
                   </a>
                 </div>
-                <div style={{ textAlign: "right", width: "30%" }}>
-                  <span>Autor</span> <p>{issue.user.login}</p>
+                <div style={{ textAlign: "center", width: "30%" }}>
+                  <div>
+                    <span>Autor</span>{" "}
+                  </div>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 10 }}
+                  >
+                    <img
+                      src={issue.user.avatar_url}
+                      style={{ borderRadius: "50%", width: 40 }}
+                      alt={issue.user.login}
+                    />
+                    <p>{issue.user.login}</p>
+                  </div>
                 </div>
               </li>
             ))}
