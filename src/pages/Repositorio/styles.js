@@ -57,8 +57,7 @@ export const Issues = styled.ul`
     border: 1px solid #eee;
     border-radius: 5px;
     margin-bottom: 10px;
-    align-items: start;
-    justify-content: space-between;
+    align-items: center;
     gap: 10px;
 
     div {
@@ -95,5 +94,24 @@ export const BackButton = styled.button`
   :hover {
     background-color: darkred;
     transition: background-color 0.3s;
+  }
+`;
+
+export const Pageactions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      background-color: darkred;
+    }
   }
 `;

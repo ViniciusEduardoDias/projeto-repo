@@ -3,16 +3,21 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { IoIosArrowBack } from "react-icons/io";
+import {
+  Container,
+  Loading,
+  Owner,
+  Issues,
+  BackButton,
+  Pageactions,
+} from "./styles";
 
-import { Container, Loading, Owner, Issues, BackButton } from "./styles";
-import { LuRadius } from "react-icons/lu";
-
-export default function Repositorio({ match }) {
+export default function Repositorio() {
   const { repositorio } = useParams();
-  const [repositorioDatas, setRepositorioDatas] = useState([]);
+  const [repositorioDatas, setRepositorioDatas] = useState({});
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     async function load() {
@@ -22,6 +27,7 @@ export default function Repositorio({ match }) {
           params: {
             state: "open",
             per_page: 5,
+            page,
           },
         }),
       ]);
@@ -31,7 +37,7 @@ export default function Repositorio({ match }) {
       setLoading(false);
     }
     load();
-  }, [repositorio]);
+  }, [repositorio, page]); // importante incluir page aqui
 
   if (loading) {
     return (
@@ -40,6 +46,11 @@ export default function Repositorio({ match }) {
       </Loading>
     );
   }
+
+  function handlePage(action) {
+    setPage(action === "back" ? page - 1 : page + 1);
+  }
+
   return (
     <Container>
       <BackButton>
@@ -54,46 +65,50 @@ export default function Repositorio({ match }) {
           alt={repositorioDatas.owner.login}
           width={120}
         />
-        <Link to={issues.html_url}>Visite o repositório</Link>
+        <a href={repositorioDatas.html_url} target="_blank" rel="noreferrer">
+          Visite o repositório
+        </a>
       </Owner>
 
-      {issues.length > 0 && (
+      {issues.length > 0 ? (
         <>
           <h2 style={{ marginTop: 20 }}>ISSUES ABERTAS</h2>
           <Issues>
             {issues.map((issue) => (
               <li key={issue.id}>
+                <img
+                  src={issue.user.avatar_url}
+                  style={{ borderRadius: "50%", width: 50 }}
+                  alt={issue.user.login}
+                />
                 <div>
-                  <span>Título</span>
+                  <p>{issue.user.login}</p>
                   <a href={issue.html_url} target="_blank" rel="noreferrer">
                     {issue.title}
                   </a>
-                </div>
-                <div style={{ textAlign: "center", width: "30%" }}>
-                  <div>
-                    <span>Autor</span>{" "}
-                  </div>
-                  <div
-                    style={{ display: "flex", alignItems: "center", gap: 10 }}
-                  >
-                    <img
-                      src={issue.user.avatar_url}
-                      style={{ borderRadius: "50%", width: 40 }}
-                      alt={issue.user.login}
-                    />
-                    <p>{issue.user.login}</p>
-                  </div>
                 </div>
               </li>
             ))}
           </Issues>
         </>
-      )}
-      {issues && (
+      ) : (
         <h1 style={{ color: "white", marginTop: 20 }}>
           Nenhuma issue aberta neste repositório
         </h1>
       )}
+
+      <Pageactions>
+        <button
+          type="button"
+          disabled={page < 2}
+          onClick={() => handlePage("back")}
+        >
+          Back
+        </button>
+        <button type="button" onClick={() => handlePage("next")}>
+          Next
+        </button>
+      </Pageactions>
     </Container>
   );
 }
