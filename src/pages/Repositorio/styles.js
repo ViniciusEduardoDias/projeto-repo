@@ -113,5 +113,32 @@ export const Pageactions = styled.div`
     &:hover {
       background-color: darkred;
     }
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+      background-color: grey;
+    }
+  }
+`;
+
+export const FilterList = styled.div`
+  margin-top: 20px;
+
+  button {
+    margin-right: 10px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #fff;
+    color: gray;
+    cursor: pointer;
+    &:hover {
+      background-color: darkblue;
+      color: white;
+    }
+    &:nth-child(${(props) => props.active + 1}) {
+      background-color: blue;
+      color: white;
+    }
   }
 `;

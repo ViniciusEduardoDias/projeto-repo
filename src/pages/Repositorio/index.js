@@ -10,6 +10,7 @@ import {
   Issues,
   BackButton,
   Pageactions,
+  FilterList,
 } from "./styles";
 
 export default function Repositorio() {
@@ -18,14 +19,23 @@ export default function Repositorio() {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [filterIndex, setFilterIndex] = useState(0);
+
+  const filters = [
+    { state: "all", label: "Todos" },
+    { state: "open", label: "Abertos" },
+    { state: "closed", label: "Fechados" },
+  ];
 
   useEffect(() => {
-    async function load() {
+    async function loadData() {
+      setLoading(true);
+
       const [repositorioData, issuesData] = await Promise.all([
         api.get(`/repos/${repositorio}`),
         api.get(`/repos/${repositorio}/issues`, {
           params: {
-            state: "open",
+            state: filters[filterIndex].state,
             per_page: 5,
             page,
           },
@@ -36,8 +46,9 @@ export default function Repositorio() {
       setIssues(issuesData.data);
       setLoading(false);
     }
-    load();
-  }, [repositorio, page]); // importante incluir page aqui
+
+    loadData();
+  }, [repositorio, filterIndex, page]);
 
   if (loading) {
     return (
@@ -51,6 +62,11 @@ export default function Repositorio() {
     setPage(action === "back" ? page - 1 : page + 1);
   }
 
+  function handleFilter(index) {
+    setFilterIndex(index);
+    setPage(1); // resetar para página 1 ao trocar filtro
+  }
+
   return (
     <Container>
       <BackButton>
@@ -58,21 +74,36 @@ export default function Repositorio() {
           <IoIosArrowBack size={20} color="white" />
         </Link>
       </BackButton>
+
       <Owner>
         <h1>{repositorioDatas.name}</h1>
-        <img
-          src={repositorioDatas.owner.avatar_url}
-          alt={repositorioDatas.owner.login}
-          width={120}
-        />
+        {repositorioDatas.owner && (
+          <img
+            src={repositorioDatas.owner.avatar_url}
+            alt={repositorioDatas.owner.login}
+            width={120}
+          />
+        )}
         <a href={repositorioDatas.html_url} target="_blank" rel="noreferrer">
           Visite o repositório
         </a>
       </Owner>
 
+      <FilterList active={filterIndex}>
+        {filters.map((filter, index) => (
+          <button
+            type="button"
+            key={filter.label}
+            onClick={() => handleFilter(index)}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </FilterList>
+
       {issues.length > 0 ? (
         <>
-          <h2 style={{ marginTop: 20 }}>ISSUES ABERTAS</h2>
+          <h2 style={{ marginTop: 20 }}>ISSUES</h2>
           <Issues>
             {issues.map((issue) => (
               <li key={issue.id}>
@@ -93,7 +124,7 @@ export default function Repositorio() {
         </>
       ) : (
         <h1 style={{ color: "white", marginTop: 20 }}>
-          Nenhuma issue aberta neste repositório
+          Nenhuma issue encontrada neste filtro
         </h1>
       )}
 
